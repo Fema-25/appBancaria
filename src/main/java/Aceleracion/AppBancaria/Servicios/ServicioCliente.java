@@ -24,16 +24,17 @@ public class ServicioCliente {
 
 
     }
-    public ClienteResponseDTO crearCliente(ClienteRequestDTO clienteDto)  throws Exception{
+    public void crearCliente(ClienteRequestDTO clienteDto)  throws Exception{
         ModelMapper modelMapper = new ModelMapper();
         Optional<Cliente> cliente = repoCliente.findByDni(clienteDto.getDni());
         if(cliente.isPresent()){
             throw new Exception("El dni con el que esta ingreasndo ya esta registrado");
         }
         Cliente persiste = modelMapper.map(clienteDto,Cliente.class);
+
         persiste.setAlta(true);
-        Cliente respuesta = repoCliente.save(persiste);
-        return modelMapper.map(respuesta,ClienteResponseDTO.class);
+        repoCliente.save(persiste);
+
 
     }
 

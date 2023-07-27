@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/cliente")
 public class ControladorCliente {
@@ -19,14 +21,14 @@ public class ControladorCliente {
     }
 
     @PostMapping("/registar")
-    public ResponseEntity<ClienteResponseDTO>registrar(@RequestBody ClienteRequestDTO clienteRequestDTO){
-        ClienteResponseDTO usuarioCreado;
+    public ResponseEntity<String>registrar(@Valid @RequestBody ClienteRequestDTO clienteRequestDTO){
+
         try {
-            usuarioCreado = servCliente.crearCliente(clienteRequestDTO);
+            servCliente.crearCliente(clienteRequestDTO);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.OK).body(usuarioCreado);
+        return ResponseEntity.status(HttpStatus.CREATED).body("El usuario se creo correctamente");
     }
 
     @PutMapping("/actualizarDatos")
@@ -39,5 +41,7 @@ public class ControladorCliente {
         }
         return ResponseEntity.status(HttpStatus.OK).body(usuarioActualizado);
     }
+
+    //@PostMapping("/solicitud")
 
 }
