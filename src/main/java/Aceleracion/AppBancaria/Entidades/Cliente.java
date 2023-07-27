@@ -38,6 +38,14 @@ public class Cliente{
         this.id = id;
     }
 
+    public Boolean getAlta() {
+        return alta;
+    }
+
+    public void setAlta(Boolean alta) {
+        this.alta = alta;
+    }
+
     public String getEmail() {
         return email;
     }
