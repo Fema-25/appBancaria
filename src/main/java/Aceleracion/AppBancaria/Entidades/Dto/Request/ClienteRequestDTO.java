@@ -1,4 +1,4 @@
 package Aceleracion.AppBancaria.Entidades.Dto.Request;
 
-public class ClienteRequestDto {
+public class ClienteRequestDTO {
 }
