@@ -43,4 +43,15 @@ public class ControladorCliente {
 
     //@PostMapping("/solicitud")
 
+    @PutMapping("/crearCajaDeAhorro/{id}")
+    public ResponseEntity<String>crearCajaDeAhorro(@PathVariable Long id){
+        try {
+            servCliente.crearCajaDeAhorro(id);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("Su caja de ahorro fue creada correctamente");
+    }
+
 }

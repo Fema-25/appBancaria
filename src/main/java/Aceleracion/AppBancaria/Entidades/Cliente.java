@@ -1,10 +1,9 @@
 package Aceleracion.AppBancaria.Entidades;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
+
 @Entity
 public class Cliente{
    @Id
@@ -17,17 +16,20 @@ public class Cliente{
     private String dni;
     private String telefono;
     private Boolean alta;
+    @OneToMany
+    private List<CajaDeAhorro>cajaDeAhorro;
 
     public Cliente() {
     }
 
-    public Cliente(String email, String password, String nombre, String apellido, String dni, String telefono) {
+    public Cliente(String email, String password, String nombre, String apellido, String dni, String telefono, List<CajaDeAhorro> cajaDeAhorro) {
         this.email = email;
         this.password = password;
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
         this.telefono = telefono;
+        this.cajaDeAhorro = cajaDeAhorro;
     }
 
     public long getId() {
@@ -92,5 +94,13 @@ public class Cliente{
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public List<CajaDeAhorro> getCajaDeAhorro() {
+        return cajaDeAhorro;
+    }
+
+    public void setCajaDeAhorro(List<CajaDeAhorro> cajaDeAhorro) {
+        this.cajaDeAhorro = cajaDeAhorro;
     }
 }
