@@ -4,7 +4,10 @@ import Aceleracion.AppBancaria.Entidades.CajaDeAhorro;
 import Aceleracion.AppBancaria.Entidades.Cliente;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestActualizarDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestDTO;
+import Aceleracion.AppBancaria.Entidades.Dto.Response.CajaAhorroDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.ClienteResponseActulizarDTO;
+import Aceleracion.AppBancaria.Mapper.CajaAhorroMapper;
+import Aceleracion.AppBancaria.Mapper.CajaAhorroMapperImpl;
 import Aceleracion.AppBancaria.Mapper.ClienteMapper;
 import Aceleracion.AppBancaria.Mapper.ClienteMapperImpl;
 import Aceleracion.AppBancaria.Repositorios.RepositorioCajaAhorro;
@@ -26,6 +29,8 @@ public class ServicioCliente {
 
     private final RepositorioCliente repoCliente;
     private ServicioCajaAhorro servCajaAhorro;
+
+
 
 
     public ServicioCliente(RepositorioCliente repoClinte,ServicioCajaAhorro servCajaAhorro) {
@@ -71,6 +76,17 @@ public class ServicioCliente {
             repoCliente.save(cliente);
         }
         else{
+            throw new Exception("Error al encotrar el User en la base de datos intentelo mas tarde");
+        }
+    }
+    public List<CajaAhorroDTO>listaCajasAhorro(Long id) throws Exception{
+        CajaAhorroMapper cajaAhorroMapper = new CajaAhorroMapperImpl();
+        Optional<Cliente> bD = repoCliente.findById(id);
+        if(bD.isPresent()){
+            Cliente cliente = bD.get();
+            return cajaAhorroMapper.listCajaDeAhorroToListCajaAhorroDTO(cliente.getCajaDeAhorro());
+        }
+        else {
             throw new Exception("Error al encotrar el User en la base de datos intentelo mas tarde");
         }
     }
