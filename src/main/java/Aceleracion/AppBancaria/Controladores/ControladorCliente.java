@@ -3,13 +3,12 @@ package Aceleracion.AppBancaria.Controladores;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestActualizarDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.ClienteResponseActulizarDTO;
-import Aceleracion.AppBancaria.Entidades.Dto.Response.ClienteResponseDTO;
 import Aceleracion.AppBancaria.Servicios.ServicioCliente;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/cliente")
@@ -21,12 +20,12 @@ public class ControladorCliente {
     }
 
     @PostMapping("/registar")
-    public ResponseEntity<String>registrar(@Valid @RequestBody ClienteRequestDTO clienteRequestDTO){
+    public ResponseEntity<String>registrar( @RequestBody ClienteRequestDTO clienteRequestDTO){
 
         try {
             servCliente.crearCliente(clienteRequestDTO);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
         return ResponseEntity.status(HttpStatus.CREATED).body("El usuario se creo correctamente");
     }
