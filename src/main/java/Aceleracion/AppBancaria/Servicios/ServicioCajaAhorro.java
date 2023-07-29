@@ -2,10 +2,12 @@ package Aceleracion.AppBancaria.Servicios;
 
 import Aceleracion.AppBancaria.Entidades.CajaDeAhorro;
 import Aceleracion.AppBancaria.Entidades.Cliente;
+import Aceleracion.AppBancaria.Entidades.Dto.Request.TranferenciaRequestDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.CajaAhorroDTO;
 import Aceleracion.AppBancaria.Repositorios.RepositorioCajaAhorro;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Random;
 
@@ -47,7 +49,28 @@ public class ServicioCajaAhorro {
 
         }
     }
+    public void transferenciaCbu(TranferenciaRequestDTO tranferenciaRequestDTO) throws Exception {
+        Optional<CajaDeAhorro>cajaFinal = repoCajaAhorro.findByCbu(tranferenciaRequestDTO.getCbuFinal());
+        Optional<CajaDeAhorro>cajaInicio = repoCajaAhorro.findByCbu(tranferenciaRequestDTO.getCbuInicio());
+        if(!cajaInicio.isPresent() && !cajaFinal.isPresent()){
+            throw new Exception("Lo sentimos no se logro realizar la transacion");
+        }
+        CajaDeAhorro fin = cajaFinal.get();
+        CajaDeAhorro inicio = cajaInicio.get();
+        comprobarFondos(inicio,tranferenciaRequestDTO.getMonto());
+        fin.setSaldo(fin.getSaldo().add(tranferenciaRequestDTO.getMonto()));
+        inicio.setSaldo(inicio.getSaldo().subtract(tranferenciaRequestDTO.getMonto()));
+        //generar entidad con la tranferencia
+        repoCajaAhorro.save(fin);
+        repoCajaAhorro.save(inicio);
 
+
+    }
+    private void comprobarFondos(CajaDeAhorro inicio , BigDecimal monto) throws Exception{
+        if(monto.compareTo(inicio.getSaldo()) > 0){
+            throw new Exception("Su cuente no posee los fondos que solicita");
+        }
+    }
     private void comprobraFondos(CajaAhorroDTO cajaAhorroDTO, CajaDeAhorro bD) throws Exception {
         if(cajaAhorroDTO.getSaldo().compareTo(bD.getSaldo()) > 0){
             throw new Exception("Su cuente no posee los fondos que solicita");

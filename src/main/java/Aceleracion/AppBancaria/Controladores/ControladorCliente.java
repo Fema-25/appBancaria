@@ -3,6 +3,7 @@ package Aceleracion.AppBancaria.Controladores;
 import Aceleracion.AppBancaria.Entidades.CajaDeAhorro;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestActualizarDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestDTO;
+import Aceleracion.AppBancaria.Entidades.Dto.Request.TranferenciaRequestDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.CajaAhorroDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.ClienteResponseActulizarDTO;
 import Aceleracion.AppBancaria.Servicios.ServicioCliente;
@@ -86,6 +87,15 @@ public class ControladorCliente {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
         return ResponseEntity.status(HttpStatus.OK).body("Dinero retirado");
+    }
+    @PutMapping("/tranferencia")
+    public ResponseEntity<?>trasferenciaCbu(@RequestBody TranferenciaRequestDTO tranferenciaRequestDTO){
+        try {
+            servCliente.transferenciaCbu(tranferenciaRequestDTO);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("Transacion realizada con exito");
     }
 
 }

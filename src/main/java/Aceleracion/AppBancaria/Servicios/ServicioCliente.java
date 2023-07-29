@@ -4,6 +4,7 @@ import Aceleracion.AppBancaria.Entidades.CajaDeAhorro;
 import Aceleracion.AppBancaria.Entidades.Cliente;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestActualizarDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestDTO;
+import Aceleracion.AppBancaria.Entidades.Dto.Request.TranferenciaRequestDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.CajaAhorroDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.ClienteResponseActulizarDTO;
 import Aceleracion.AppBancaria.Mapper.CajaAhorroMapper;
@@ -99,6 +100,8 @@ public class ServicioCliente {
         servCajaAhorro.retirarDineroCajaAhorro(cajaAhorroDTO);
     }
 
-
+    public void transferenciaCbu(TranferenciaRequestDTO tranferenciaRequestDTO) throws Exception{
+        servCajaAhorro.transferenciaCbu(tranferenciaRequestDTO);
+    }
 
 }
