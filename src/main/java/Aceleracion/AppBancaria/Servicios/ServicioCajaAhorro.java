@@ -34,6 +34,25 @@ public class ServicioCajaAhorro {
             repoCajaAhorro.save(bD);
         }
     }
+
+    public void retirarDineroCajaAhorro(CajaAhorroDTO cajaAhorroDTO) throws Exception {
+        Optional<CajaDeAhorro>caja = repoCajaAhorro.findById(cajaAhorroDTO.getId());
+        if(!caja.isPresent()){
+            throw new Exception("Lo siento no se encontro su caja de ahorro verifique bien los datos ingresados");
+        }else {
+            CajaDeAhorro bD = caja.get();
+            comprobraFondos(cajaAhorroDTO,bD);
+            bD.setSaldo(bD.getSaldo().subtract(cajaAhorroDTO.getSaldo()));
+            repoCajaAhorro.save(bD);
+
+        }
+    }
+
+    private void comprobraFondos(CajaAhorroDTO cajaAhorroDTO, CajaDeAhorro bD) throws Exception {
+        if(cajaAhorroDTO.getSaldo().compareTo(bD.getSaldo()) > 0){
+            throw new Exception("Su cuente no posee los fondos que solicita");
+        }
+    }
     private String generarCbuRamdon(){
         int cbuLength = 22;
         Random random = new Random();

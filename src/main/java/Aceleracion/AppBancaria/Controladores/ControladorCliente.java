@@ -78,4 +78,14 @@ public class ControladorCliente {
         }
         return ResponseEntity.status(HttpStatus.OK).body("Dinero Ingresado");
     }
+    @PutMapping("/retirarDineroCajaAHorro")
+    public ResponseEntity<?>retirarDineroCajaAhorro(@RequestBody CajaAhorroDTO cajaDeAhorro){
+        try {
+            servCliente.retirarDineroCajaAhorro(cajaDeAhorro);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("Dinero retirado");
+    }
+
 }

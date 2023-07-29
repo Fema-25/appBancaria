@@ -95,7 +95,9 @@ public class ServicioCliente {
             servCajaAhorro.ingresarDineroCajaAhorro(cajaAhorroDTO);
     }
 
-
+    public void retirarDineroCajaAhorro(CajaAhorroDTO cajaAhorroDTO) throws Exception {
+        servCajaAhorro.retirarDineroCajaAhorro(cajaAhorroDTO);
+    }
 
 
 
