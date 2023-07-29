@@ -10,4 +10,5 @@ import java.util.List;
 @Mapper
 public interface CajaAhorroMapper {
     List<CajaAhorroDTO> listCajaDeAhorroToListCajaAhorroDTO(List<CajaDeAhorro> cajaDeAhorro);
+    CajaDeAhorro cajaAhorroDtoToCajaAhorroDeAhorro(CajaAhorroDTO cajaAhorroDTO);
 }

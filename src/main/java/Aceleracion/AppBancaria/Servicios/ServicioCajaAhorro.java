@@ -2,9 +2,11 @@ package Aceleracion.AppBancaria.Servicios;
 
 import Aceleracion.AppBancaria.Entidades.CajaDeAhorro;
 import Aceleracion.AppBancaria.Entidades.Cliente;
+import Aceleracion.AppBancaria.Entidades.Dto.Response.CajaAhorroDTO;
 import Aceleracion.AppBancaria.Repositorios.RepositorioCajaAhorro;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -21,6 +23,16 @@ public class ServicioCajaAhorro {
         cajaDeAhorro.setCliente(cliente);
         repoCajaAhorro.save(cajaDeAhorro);
         return cajaDeAhorro;
+    }
+    public void ingresarDineroCajaAhorro(CajaAhorroDTO cajaAhorroDTO) throws Exception {
+        Optional<CajaDeAhorro>caja = repoCajaAhorro.findById(cajaAhorroDTO.getId());
+        if(!caja.isPresent()){
+            throw new Exception("Lo siento no se encontro su caja de ahorro verifique bien los datos ingresados");
+        }else {
+            CajaDeAhorro bD = caja.get();
+            bD.setSaldo(bD.getSaldo().add(cajaAhorroDTO.getSaldo()));
+            repoCajaAhorro.save(bD);
+        }
     }
     private String generarCbuRamdon(){
         int cbuLength = 22;
