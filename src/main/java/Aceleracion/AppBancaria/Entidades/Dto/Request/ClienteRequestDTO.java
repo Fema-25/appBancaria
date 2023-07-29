@@ -1,21 +1,35 @@
 package Aceleracion.AppBancaria.Entidades.Dto.Request;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 public class ClienteRequestDTO {
-    @NotBlank
-    @Email
+    @NotNull
+    @NotBlank(message = "Por favor ingrese un email")
+    @Email(message = "Por favor ingrese un email valido")
     private String email;
-    @Size(min = 8,max = 16)
+    @Size(min = 8,max = 16,message = "El contraseña solo puede contener entre 8-16 caracteres")
     @NotBlank
     private String password;
+    @NotBlank(message = "Por favor ingrese un nombre")
     private String nombre;
+    @NotBlank(message = "Por favor ingrese un apellido")
     private String apellido;
+    @NotBlank(message = "Por favor ingrese un dni")
+    @Pattern(message = "Ingrese un numero de dni valido",regexp ="\\b\\d{8}\\b" )
     private String dni;
+    @NotBlank(message = "Por favor ingrese un telefono")
+    @Pattern(message = "Por favor ingrese un numero de telefono valido", regexp = "\\b\\d{10}\\b")
     private String telefono;
+
+    public ClienteRequestDTO(String email, String password, String nombre, String apellido, String dni, String telefono) {
+        this.email = email;
+        this.password = password;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.dni = dni;
+        this.telefono = telefono;
+    }
 
     public String getEmail() {
         return email;
