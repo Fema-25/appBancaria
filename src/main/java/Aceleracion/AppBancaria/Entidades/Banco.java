@@ -1,14 +1,12 @@
 package Aceleracion.AppBancaria.Entidades;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class Banco {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
     private String nombre;
     @OneToMany(mappedBy = "banco", cascade = CascadeType.ALL, orphanRemoval = true)
