@@ -3,7 +3,7 @@ package Aceleracion.AppBancaria.Entidades;
 import javax.persistence.Entity;
 import java.math.BigDecimal;
 
-@Entity
+
 public class CuentaCorriente {
     private long id;
     private BigDecimal saldo;
