@@ -16,7 +16,10 @@ public class Cliente{
     private String dni;
     private String telefono;
     private Boolean alta;
-    @OneToMany
+    @ManyToOne
+    @JoinColumn(name = "sucursal_id")
+    private Sucursal sucursal;
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CajaDeAhorro>cajaDeAhorro;
 
     public Cliente() {

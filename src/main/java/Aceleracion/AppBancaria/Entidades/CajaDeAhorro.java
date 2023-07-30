@@ -9,7 +9,8 @@ public class CajaDeAhorro {
     private Long id;
     private BigDecimal saldo;
     private String cbu;
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     public CajaDeAhorro() {

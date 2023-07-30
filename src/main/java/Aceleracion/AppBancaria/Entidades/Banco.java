@@ -1,7 +1,44 @@
 package Aceleracion.AppBancaria.Entidades;
 
-public class Banco {
-    private String nombre;
-    private String Direcion;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
+@Entity
+public class Banco {
+    @Id
+    private long id;
+    private String nombre;
+    @OneToMany(mappedBy = "banco", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Sucursal> sucursales;
+    public Banco(String nombre, List<Sucursal> sucursales) {
+        this.nombre = nombre;
+        this.sucursales = sucursales;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    @OneToMany(mappedBy = "banco", cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<Sucursal> getSucursales() {
+        return sucursales;
+    }
+
+    public void setSucursales(List<Sucursal> sucursales) {
+        this.sucursales = sucursales;
+    }
 }
