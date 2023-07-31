@@ -14,9 +14,24 @@ public class Sucursal {
     private List<Empleado> empleados;
     @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cliente>clientes;
+    @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SolicitudBaja> solicitudesBajas;
     @ManyToOne
     @JoinColumn(name = "banco_id")
     private Banco banco;
+
+    public Sucursal() {
+    }
+
+    public Sucursal(long id, String nombreSucursal, String dirrecion, List<Empleado> empleados, List<Cliente> clientes, List<SolicitudBaja> solicitudesBajas, Banco banco) {
+        this.id = id;
+        this.nombreSucursal = nombreSucursal;
+        this.dirrecion = dirrecion;
+        this.empleados = empleados;
+        this.clientes = clientes;
+        this.solicitudesBajas = solicitudesBajas;
+        this.banco = banco;
+    }
 
     public long getId() {
         return id;

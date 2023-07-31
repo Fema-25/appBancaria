@@ -4,16 +4,16 @@ import Aceleracion.AppBancaria.Entidades.CajaDeAhorro;
 import Aceleracion.AppBancaria.Entidades.Cliente;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestActualizarDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestDTO;
+import Aceleracion.AppBancaria.Entidades.Dto.Request.SolicitudBajaDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.TranferenciaRequestDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.CajaAhorroDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.ClienteResponseActulizarDTO;
+import Aceleracion.AppBancaria.Entidades.SolicitudBaja;
 import Aceleracion.AppBancaria.Entidades.Sucursal;
-import Aceleracion.AppBancaria.Mapper.CajaAhorroMapper;
-import Aceleracion.AppBancaria.Mapper.CajaAhorroMapperImpl;
-import Aceleracion.AppBancaria.Mapper.ClienteMapper;
-import Aceleracion.AppBancaria.Mapper.ClienteMapperImpl;
+import Aceleracion.AppBancaria.Mapper.*;
 import Aceleracion.AppBancaria.Repositorios.RepositorioCajaAhorro;
 import Aceleracion.AppBancaria.Repositorios.RepositorioCliente;
+import Aceleracion.AppBancaria.Repositorios.RepositorioSolicitudBaja;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,16 +32,18 @@ public class ServicioCliente {
 
 
     private final RepositorioCliente repoCliente;
+    private RepositorioSolicitudBaja repoSolicitudBaja;
     private ServicioCajaAhorro servCajaAhorro;
     private ServicioSucursal servSucursal;
 
 
 
 
-    public ServicioCliente(RepositorioCliente repoClinte,ServicioCajaAhorro servCajaAhorro,ServicioSucursal servSucursal) {
+    public ServicioCliente(RepositorioCliente repoClinte,ServicioCajaAhorro servCajaAhorro,ServicioSucursal servSucursal, RepositorioSolicitudBaja repoSolicitudBaja) {
         this.repoCliente = repoClinte;
         this.servCajaAhorro = servCajaAhorro;
         this.servSucursal = servSucursal;
+        this.repoSolicitudBaja = repoSolicitudBaja;
 
 
     }
@@ -109,6 +111,15 @@ public class ServicioCliente {
 
     public void transferenciaCbu(TranferenciaRequestDTO tranferenciaRequestDTO) throws Exception{
         servCajaAhorro.transferenciaCbu(tranferenciaRequestDTO);
+    }
+    public void solicitarBaja(SolicitudBajaDTO solicitudBajaDTO) throws Exception {
+        SolicitudBajaMapper mapper = new SolicitudBajaMapperImpl();
+        SolicitudBaja solicitudBaja = mapper.solicitudBajaDtoToSolicitudBaja(solicitudBajaDTO);
+        solicitudBaja.setCliente(repoCliente.getById(solicitudBajaDTO.getIdCliente()));
+        solicitudBaja.setSucursal(servSucursal.buscarSucursal(solicitudBajaDTO.getIdSucursal()));
+        repoSolicitudBaja.save(solicitudBaja);
+
+
     }
 
 }
