@@ -9,6 +9,7 @@ import Aceleracion.AppBancaria.Repositorios.RepositorioSucursal;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class ServicioSucursal {
@@ -27,6 +28,16 @@ public class ServicioSucursal {
         sucursal.setBanco(servBanco.buscarBanco(sucursalRequestDTO.getIdBanco()));
         repoSucursal.save(sucursal);
 
+
+    }
+    public Sucursal buscarSucursal(Long sucursalId) throws Exception {
+        Optional<Sucursal>bD = repoSucursal.findById(sucursalId);
+        if(!bD.isPresent()){
+            throw new Exception("No Se encontro la sucursal");
+        }else{
+            Sucursal sucursal = bD.get();
+            return sucursal;
+        }
 
     }
 }

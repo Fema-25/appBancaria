@@ -7,6 +7,7 @@ import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.TranferenciaRequestDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.CajaAhorroDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.ClienteResponseActulizarDTO;
+import Aceleracion.AppBancaria.Entidades.Sucursal;
 import Aceleracion.AppBancaria.Mapper.CajaAhorroMapper;
 import Aceleracion.AppBancaria.Mapper.CajaAhorroMapperImpl;
 import Aceleracion.AppBancaria.Mapper.ClienteMapper;
@@ -17,6 +18,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
+import javax.transaction.Transactional;
 import javax.validation.*;
 
 import java.util.List;
@@ -30,24 +33,28 @@ public class ServicioCliente {
 
     private final RepositorioCliente repoCliente;
     private ServicioCajaAhorro servCajaAhorro;
+    private ServicioSucursal servSucursal;
 
 
 
 
-    public ServicioCliente(RepositorioCliente repoClinte,ServicioCajaAhorro servCajaAhorro) {
+    public ServicioCliente(RepositorioCliente repoClinte,ServicioCajaAhorro servCajaAhorro,ServicioSucursal servSucursal) {
         this.repoCliente = repoClinte;
         this.servCajaAhorro = servCajaAhorro;
+        this.servSucursal = servSucursal;
 
 
     }
+    @Transactional
     public void crearCliente(@Valid ClienteRequestDTO clienteDto)  throws Exception{
         ModelMapper modelMapper = new ModelMapper();
         Optional<Cliente> cliente = repoCliente.findByDni(clienteDto.getDni());
+
         if(cliente.isPresent()){
             throw new Exception("El dni con el que esta ingreasndo ya esta registrado");
         }
         Cliente persiste = modelMapper.map(clienteDto,Cliente.class);
-
+        persiste.setSucursal(servSucursal.buscarSucursal(clienteDto.getSucursalId()));
         persiste.setAlta(true);
         repoCliente.save(persiste);
 

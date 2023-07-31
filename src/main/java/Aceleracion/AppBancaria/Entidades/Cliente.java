@@ -106,4 +106,12 @@ public class Cliente{
     public void setCajaDeAhorro(List<CajaDeAhorro> cajaDeAhorro) {
         this.cajaDeAhorro = cajaDeAhorro;
     }
+
+    public Sucursal getSucursal() {
+        return sucursal;
+    }
+
+    public void setSucursal(Sucursal sucursal) {
+        this.sucursal = sucursal;
+    }
 }
