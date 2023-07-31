@@ -11,6 +11,10 @@ public class Banco {
     private String nombre;
     @OneToMany(mappedBy = "banco", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sucursal> sucursales;
+
+    public Banco() {
+    }
+
     public Banco(String nombre, List<Sucursal> sucursales) {
         this.nombre = nombre;
         this.sucursales = sucursales;
@@ -31,12 +35,13 @@ public class Banco {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    @OneToMany(mappedBy = "banco", cascade = CascadeType.ALL, orphanRemoval = true)
+
     public List<Sucursal> getSucursales() {
         return sucursales;
     }
 
     public void setSucursales(List<Sucursal> sucursales) {
+
         this.sucursales = sucursales;
     }
 }
