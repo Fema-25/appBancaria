@@ -1,13 +1,13 @@
 package Aceleracion.AppBancaria.Controladores;
 
 import Aceleracion.AppBancaria.Entidades.Dto.Request.EmpleadoRequestDTO;
+import Aceleracion.AppBancaria.Entidades.Dto.Response.SolicitudBajaResponseDTO;
 import Aceleracion.AppBancaria.Servicios.ServicioEmpleado;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/empleado")
@@ -30,8 +30,15 @@ public class ControladorEmpleado {
     public void actualizarDatos() {
 
     }
-    public void listaDeSolicitudesBaja(){
-
+    @GetMapping("/listarSolicitudesBaja/{id}")
+    public ResponseEntity<?> listaDeSolicitudesBaja(@PathVariable("id") long idSucursal) {
+        List<SolicitudBajaResponseDTO> lista;
+        try {
+            lista = servicioEmpleado.listarSolicitudesBaja(idSucursal);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al procesar los datos");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
     public void listaSolicitudesCuentaCorrientes(){
 
