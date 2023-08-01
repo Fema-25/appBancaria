@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 @Entity
 public class CajaDeAhorro {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private BigDecimal saldo;
     private String cbu;

@@ -2,12 +2,13 @@ package Aceleracion.AppBancaria.Entidades;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Cliente{
    @Id
-   @GeneratedValue(strategy = GenerationType.SEQUENCE)
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String email;
     private String password;
@@ -19,10 +20,11 @@ public class Cliente{
     @ManyToOne
     @JoinColumn(name = "sucursal_id")
     private Sucursal sucursal;
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)
     private List<CajaDeAhorro>cajaDeAhorro;
 
     public Cliente() {
+        this.cajaDeAhorro = new ArrayList<>();
     }
 
     public Cliente(String email, String password, String nombre, String apellido, String dni, String telefono, List<CajaDeAhorro> cajaDeAhorro) {

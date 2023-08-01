@@ -6,7 +6,7 @@ import java.util.List;
 @Entity
 public class Banco {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String nombre;
     @OneToMany(mappedBy = "banco", cascade = CascadeType.ALL, orphanRemoval = true)

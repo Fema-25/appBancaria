@@ -5,7 +5,7 @@ import java.util.List;
 @Entity
 public class Sucursal {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String nombreSucursal;
