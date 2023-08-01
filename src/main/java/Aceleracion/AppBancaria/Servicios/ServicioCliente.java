@@ -49,13 +49,13 @@ public class ServicioCliente {
     }
     @Transactional
     public void crearCliente(@Valid ClienteRequestDTO clienteDto)  throws Exception{
-        ModelMapper modelMapper = new ModelMapper();
+
         Optional<Cliente> cliente = repoCliente.findByDni(clienteDto.getDni());
 
         if(cliente.isPresent()){
             throw new Exception("El dni con el que esta ingreasndo ya esta registrado");
         }
-        Cliente persiste = modelMapper.map(clienteDto,Cliente.class);
+        Cliente persiste = ClienteMapper.INSTANCE.clienteResponseDtoToCliente(clienteDto);
         persiste.setSucursal(servSucursal.buscarSucursal(clienteDto.getSucursalId()));
         persiste.setAlta(true);
         repoCliente.save(persiste);
@@ -116,7 +116,6 @@ public class ServicioCliente {
         SolicitudBajaMapper mapper = new SolicitudBajaMapperImpl();
         SolicitudBaja solicitudBaja = mapper.solicitudBajaDtoToSolicitudBaja(solicitudBajaDTO);
         solicitudBaja.setCliente(repoCliente.getById(solicitudBajaDTO.getIdCliente()));
-        solicitudBaja.setSucursal(servSucursal.buscarSucursal(solicitudBajaDTO.getIdSucursal()));
         repoSolicitudBaja.save(solicitudBaja);
 
 

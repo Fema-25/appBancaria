@@ -14,7 +14,10 @@ public class Empleado {
     @JoinColumn(name = "sucursal_id")
     private Sucursal sucursal;
 
-    public Empleado(String nombre, String apellido,String dni) {
+    public Empleado() {
+    }
+
+    public Empleado(String nombre, String apellido, String dni) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;

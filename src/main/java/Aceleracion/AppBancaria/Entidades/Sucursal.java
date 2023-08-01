@@ -1,6 +1,7 @@
 package Aceleracion.AppBancaria.Entidades;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 @Entity
 public class Sucursal {
@@ -10,26 +11,25 @@ public class Sucursal {
 
     private String nombreSucursal;
     private String dirrecion;
-    @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL)
     private List<Empleado> empleados;
-    @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL)
     private List<Cliente>clientes;
-    @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SolicitudBaja> solicitudesBajas;
     @ManyToOne
     @JoinColumn(name = "banco_id")
     private Banco banco;
 
     public Sucursal() {
+        this.clientes = new ArrayList<>();
     }
 
-    public Sucursal(long id, String nombreSucursal, String dirrecion, List<Empleado> empleados, List<Cliente> clientes, List<SolicitudBaja> solicitudesBajas, Banco banco) {
+    public Sucursal(long id, String nombreSucursal, String dirrecion, List<Empleado> empleados, List<Cliente> clientes, Banco banco) {
         this.id = id;
         this.nombreSucursal = nombreSucursal;
         this.dirrecion = dirrecion;
         this.empleados = empleados;
         this.clientes = clientes;
-        this.solicitudesBajas = solicitudesBajas;
+
         this.banco = banco;
     }
 

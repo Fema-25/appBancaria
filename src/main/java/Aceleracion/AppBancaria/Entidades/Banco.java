@@ -1,6 +1,7 @@
 package Aceleracion.AppBancaria.Entidades;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -9,10 +10,11 @@ public class Banco {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String nombre;
-    @OneToMany(mappedBy = "banco", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "banco", cascade = CascadeType.ALL)
     private List<Sucursal> sucursales;
 
     public Banco() {
+        this.sucursales = new ArrayList<>();
     }
 
     public Banco(String nombre, List<Sucursal> sucursales) {

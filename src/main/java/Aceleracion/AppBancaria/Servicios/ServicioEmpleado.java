@@ -1,5 +1,6 @@
 package Aceleracion.AppBancaria.Servicios;
 
+import Aceleracion.AppBancaria.Entidades.Cliente;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.EmpleadoRequestDTO;
 
 import Aceleracion.AppBancaria.Entidades.Dto.Response.SolicitudBajaResponseDTO;
@@ -10,6 +11,7 @@ import Aceleracion.AppBancaria.Mapper.EmpleadoMapper;
 import Aceleracion.AppBancaria.Mapper.EmpleadoMapperImpl;
 import Aceleracion.AppBancaria.Mapper.SolicitudBajaMapper;
 
+import Aceleracion.AppBancaria.Repositorios.RepositorioCliente;
 import Aceleracion.AppBancaria.Repositorios.RepositorioEmpleado;
 import Aceleracion.AppBancaria.Repositorios.RepositorioSolicitudBaja;
 import org.springframework.stereotype.Service;
@@ -22,11 +24,13 @@ public class ServicioEmpleado {
     private RepositorioEmpleado repositorioEmpleado;
     private ServicioSucursal servicioSucursal;
     private RepositorioSolicitudBaja repositorioSolicitudBaja;
+    private RepositorioCliente repositorioCliente;
 
-    public ServicioEmpleado(RepositorioEmpleado repositorioEmpleado, ServicioSucursal servicioSucursal,RepositorioSolicitudBaja repositorioSolicitudBaja) {
+    public ServicioEmpleado(RepositorioEmpleado repositorioEmpleado, ServicioSucursal servicioSucursal, RepositorioSolicitudBaja repositorioSolicitudBaja, RepositorioCliente repositorioCliente) {
         this.repositorioEmpleado = repositorioEmpleado;
         this.servicioSucursal = servicioSucursal;
         this.repositorioSolicitudBaja = repositorioSolicitudBaja;
+        this.repositorioCliente = repositorioCliente;
     }
 
     public void crearEmpleado(EmpleadoRequestDTO empleadoRequestDTO) throws Exception {
@@ -50,8 +54,20 @@ public class ServicioEmpleado {
         return repuesta;
 
     }
-    public void darDebaja(){
+    public void darDebaja(long idCliente, long idBaja) throws Exception {
+        Optional<SolicitudBaja>bajaBd = repositorioSolicitudBaja.findById(idBaja);
+        Optional<Cliente>clienteBd = repositorioCliente.findById(idCliente);
+        if(!bajaBd.isPresent() || !clienteBd.isPresent()){
+            throw new Exception("Error los datos ingresados don Erroneos");
+        }
+        else{
+            Cliente cliente = clienteBd.get();
+            SolicitudBaja baja = bajaBd.get();
+            cliente.setAlta(false);
+            repositorioSolicitudBaja.delete(baja);
+            repositorioCliente.save(cliente);
 
+        }
     }
     public void listarSolicitudesCuenteCorriente(){
 

@@ -2,6 +2,7 @@ package Aceleracion.AppBancaria.Mapper;
 
 import Aceleracion.AppBancaria.Entidades.Cliente;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestActualizarDTO;
+import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.ClienteResponseActulizarDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.ClienteResponseDTO;
 import org.mapstruct.Mapper;
@@ -16,4 +17,5 @@ public interface ClienteMapper {
 
     ClienteResponseActulizarDTO clienteToClienteResposeActualizarDTO(Cliente cliente);
     ClienteResponseDTO clienteToClienteResponseDto(Cliente cliente);
+    Cliente clienteResponseDtoToCliente(ClienteRequestDTO clienteResponseDTO);
 }

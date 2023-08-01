@@ -40,6 +40,15 @@ public class ControladorEmpleado {
         }
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
+    @PostMapping("/darDeBaja/{idCliente}/{idBaja}")
+    public ResponseEntity<?>darDeBaja(@PathVariable("idCliente") long idCliente, @PathVariable("idBaja") long idBaja){
+        try {
+            servicioEmpleado.darDebaja(idCliente,idBaja);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("El usuario fue dado de baja");
+    }
     public void listaSolicitudesCuentaCorrientes(){
 
     }

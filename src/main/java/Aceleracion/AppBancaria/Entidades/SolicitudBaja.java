@@ -7,9 +7,7 @@ public class SolicitudBaja {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sucursal_id")
-    private Sucursal sucursal;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
@@ -21,7 +19,7 @@ public class SolicitudBaja {
     }
 
     public SolicitudBaja(Sucursal sucursal, Cliente cliente, String motivo) {
-        this.sucursal = sucursal;
+
         this.cliente = cliente;
         this.motivo = motivo;
     }
@@ -34,13 +32,9 @@ public class SolicitudBaja {
         this.id = id;
     }
 
-    public Sucursal getSucursal() {
-        return sucursal;
-    }
 
-    public void setSucursal(Sucursal sucursal) {
-        this.sucursal = sucursal;
-    }
+
+
 
     public Cliente getCliente() {
         return cliente;

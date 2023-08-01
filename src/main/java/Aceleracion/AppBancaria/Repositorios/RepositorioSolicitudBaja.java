@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RepositorioSolicitudBaja extends JpaRepository<SolicitudBaja,Long> {
-    @Query("SELECT s FROM SolicitudBaja s WHERE s.sucursal = :sucursal")
+    @Query("SELECT sb FROM SolicitudBaja sb JOIN sb.cliente c WHERE c.sucursal = :sucursal")
     List<SolicitudBaja> listarSolicitudBaja(@Param("sucursal") Sucursal sucursal);
+    Optional<SolicitudBaja> findById(long iDbaja);
 }
