@@ -1,21 +1,16 @@
 package Aceleracion.AppBancaria.Servicios;
 
-import Aceleracion.AppBancaria.Entidades.CajaDeAhorro;
-import Aceleracion.AppBancaria.Entidades.Cliente;
+import Aceleracion.AppBancaria.Entidades.*;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestActualizarDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.SolicitudBajaDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.TranferenciaRequestDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.CajaAhorroDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.ClienteResponseActulizarDTO;
-import Aceleracion.AppBancaria.Entidades.SolicitudBaja;
-import Aceleracion.AppBancaria.Entidades.Sucursal;
 import Aceleracion.AppBancaria.Mapper.*;
-import Aceleracion.AppBancaria.Repositorios.RepositorioCajaAhorro;
 import Aceleracion.AppBancaria.Repositorios.RepositorioCliente;
 import Aceleracion.AppBancaria.Repositorios.RepositorioSolicitudBaja;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import Aceleracion.AppBancaria.Repositorios.RepositorioSolicitudCuentaCorriente;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -24,7 +19,6 @@ import javax.validation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 @Validated
@@ -35,17 +29,19 @@ public class ServicioCliente {
     private RepositorioSolicitudBaja repoSolicitudBaja;
     private ServicioCajaAhorro servCajaAhorro;
     private ServicioSucursal servSucursal;
+    private RepositorioSolicitudCuentaCorriente repoSolicitudCuenta;
 
 
 
 
-    public ServicioCliente(RepositorioCliente repoClinte,ServicioCajaAhorro servCajaAhorro,ServicioSucursal servSucursal, RepositorioSolicitudBaja repoSolicitudBaja) {
+    public ServicioCliente(RepositorioCliente repoClinte, ServicioCajaAhorro servCajaAhorro, ServicioSucursal servSucursal, RepositorioSolicitudBaja repoSolicitudBaja, RepositorioSolicitudCuentaCorriente repoSolicitudCuenta) {
         this.repoCliente = repoClinte;
         this.servCajaAhorro = servCajaAhorro;
         this.servSucursal = servSucursal;
         this.repoSolicitudBaja = repoSolicitudBaja;
 
 
+        this.repoSolicitudCuenta = repoSolicitudCuenta;
     }
     @Transactional
     public void crearCliente(@Valid ClienteRequestDTO clienteDto)  throws Exception{
@@ -119,6 +115,18 @@ public class ServicioCliente {
         repoSolicitudBaja.save(solicitudBaja);
 
 
+    }
+    public void SolicitarCuentaCorriente(long idCliente) throws Exception {
+        Optional<Cliente>bD = repoCliente.findById(idCliente);
+        if(!bD.isPresent()){
+            throw new Exception("No se encontro el cliente");
+        }
+        else{
+            SolicitudCuenteCorriente solicitud = new SolicitudCuenteCorriente();
+            solicitud.setCliente(bD.get());
+            repoSolicitudCuenta.save(solicitud);
+
+        }
     }
 
 }

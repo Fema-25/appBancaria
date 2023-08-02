@@ -22,12 +22,15 @@ public class Cliente{
     private Sucursal sucursal;
     @OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)
     private List<CajaDeAhorro>cajaDeAhorro;
+    @OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)
+    private List<CuentaCorriente>cuentaCorriente;
 
     public Cliente() {
         this.cajaDeAhorro = new ArrayList<>();
+        this.cuentaCorriente = new ArrayList<>();
     }
 
-    public Cliente(String email, String password, String nombre, String apellido, String dni, String telefono, List<CajaDeAhorro> cajaDeAhorro) {
+    public Cliente(String email, String password, String nombre, String apellido, String dni, String telefono, List<CajaDeAhorro> cajaDeAhorro,List<CuentaCorriente>cuentaCorriente) {
         this.email = email;
         this.password = password;
         this.nombre = nombre;
@@ -35,6 +38,7 @@ public class Cliente{
         this.dni = dni;
         this.telefono = telefono;
         this.cajaDeAhorro = cajaDeAhorro;
+        this.cuentaCorriente = cuentaCorriente;
     }
 
     public long getId() {

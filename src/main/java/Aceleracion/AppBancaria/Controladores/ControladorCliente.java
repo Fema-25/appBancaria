@@ -107,5 +107,14 @@ public class ControladorCliente {
         }
         return ResponseEntity.status(HttpStatus.OK).body("Solicitud Enviada");
     }
+    @PostMapping("/solicitudCuentaCorriente/{idCliente}")
+    public ResponseEntity<String>solicitudCuentaCorriente(@PathVariable("idCliente") long idCliente){
+        try {
+            servCliente.SolicitarCuentaCorriente(idCliente);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        return  ResponseEntity.status(HttpStatus.OK).body("Solicitud Enviada");
+    }
 
 }
