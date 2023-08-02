@@ -37,12 +37,12 @@ public class ControladorCliente {
     }
 
     @PutMapping("/actualizarDatos")
-    public ResponseEntity<ClienteResponseActulizarDTO>actualizarDatosPersonales(@RequestBody ClienteRequestActualizarDTO clienteRequestActualizarDTO){
+    public ResponseEntity<?>actualizarDatosPersonales(@RequestBody ClienteRequestActualizarDTO clienteRequestActualizarDTO){
         ClienteResponseActulizarDTO usuarioActualizado;
         try {
            usuarioActualizado = servCliente.actualizarDatos(clienteRequestActualizarDTO);
         } catch (Exception e){
-            throw new RuntimeException(e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
         return ResponseEntity.status(HttpStatus.OK).body(usuarioActualizado);
     }

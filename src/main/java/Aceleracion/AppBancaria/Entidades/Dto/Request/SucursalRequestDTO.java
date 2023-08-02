@@ -1,8 +1,17 @@
 package Aceleracion.AppBancaria.Entidades.Dto.Request;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class SucursalRequestDTO {
+    @NotBlank(message = "Ingrese un nombre para la sucursal")
     private String nombreSucursal;
+    @NotBlank(message = "ingrese una direcione para la sucursal")
     private String dirrecion;
+
+    @NotNull(message = "por favor selecione un banco al que pertenece la sucursal")
+    @Min(value = 1, message = "El id del banco debe ser mayor o igual a 1")
     private long idBanco;
 
     public SucursalRequestDTO() {

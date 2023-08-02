@@ -59,7 +59,7 @@ public class ServicioCliente {
 
     }
 
-    public ClienteResponseActulizarDTO actualizarDatos(ClienteRequestActualizarDTO clienteRequestActualizarDTO) throws Exception {
+    public ClienteResponseActulizarDTO actualizarDatos(@Valid ClienteRequestActualizarDTO clienteRequestActualizarDTO) throws Exception {
             ClienteMapper mapper = new ClienteMapperImpl();
             Optional<Cliente> bD = repoCliente.findById(clienteRequestActualizarDTO.getId());
             if(bD.isPresent()){
@@ -97,18 +97,18 @@ public class ServicioCliente {
         }
     }
 
-    public void ingresarDineroCajaAhorro(CajaAhorroDTO cajaAhorroDTO) throws Exception {
+    public void ingresarDineroCajaAhorro(@Valid CajaAhorroDTO cajaAhorroDTO) throws Exception {
             servCajaAhorro.ingresarDineroCajaAhorro(cajaAhorroDTO);
     }
 
-    public void retirarDineroCajaAhorro(CajaAhorroDTO cajaAhorroDTO) throws Exception {
+    public void retirarDineroCajaAhorro(@Valid CajaAhorroDTO cajaAhorroDTO) throws Exception {
         servCajaAhorro.retirarDineroCajaAhorro(cajaAhorroDTO);
     }
 
-    public void transferenciaCbu(TranferenciaRequestDTO tranferenciaRequestDTO) throws Exception{
+    public void transferenciaCbu(@Valid TranferenciaRequestDTO tranferenciaRequestDTO) throws Exception{
         servCajaAhorro.transferenciaCbu(tranferenciaRequestDTO);
     }
-    public void solicitarBaja(SolicitudBajaDTO solicitudBajaDTO) throws Exception {
+    public void solicitarBaja(@Valid SolicitudBajaDTO solicitudBajaDTO) throws Exception {
         SolicitudBajaMapper mapper = new SolicitudBajaMapperImpl();
         SolicitudBaja solicitudBaja = mapper.solicitudBajaDtoToSolicitudBaja(solicitudBajaDTO);
         solicitudBaja.setCliente(repoCliente.getById(solicitudBajaDTO.getIdCliente()));

@@ -1,11 +1,21 @@
 package Aceleracion.AppBancaria.Entidades.Dto.Request;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
 public class ClienteRequestActualizarDTO {
     private Long id ;
+
+    @Email(message = "Por Favor ingrese un email valido")
     private String email;
+
     private String nombre;
+
     private String apellido;
+    @Pattern(message = "Ingrese un numero de dni valido",regexp ="\\b\\d{8}\\b" )
     private String dni;
+    @Pattern(message = "Por favor ingrese un numero de telefono valido", regexp = "\\b\\d{10}\\b")
     private String telefono;
 
     public Long getId() {

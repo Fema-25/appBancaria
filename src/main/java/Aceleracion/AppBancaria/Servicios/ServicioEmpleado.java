@@ -12,11 +12,14 @@ import Aceleracion.AppBancaria.Repositorios.RepositorioCliente;
 import Aceleracion.AppBancaria.Repositorios.RepositorioEmpleado;
 import Aceleracion.AppBancaria.Repositorios.RepositorioSolicitudBaja;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Validated
 public class ServicioEmpleado {
     private RepositorioEmpleado repositorioEmpleado;
     private ServicioSucursal servicioSucursal;
@@ -32,7 +35,7 @@ public class ServicioEmpleado {
         this.servicioCuentaCorriente = servicioCuentaCorriente;
     }
 
-    public void crearEmpleado(EmpleadoRequestDTO empleadoRequestDTO) throws Exception {
+    public void crearEmpleado(@Valid EmpleadoRequestDTO empleadoRequestDTO) throws Exception {
        EmpleadoMapper mapper = new EmpleadoMapperImpl();
        Optional<Empleado>bD = repositorioEmpleado.findByDni(empleadoRequestDTO.getDni());
        if(bD.isPresent()){

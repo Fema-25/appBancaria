@@ -7,11 +7,14 @@ import Aceleracion.AppBancaria.Mapper.SucursalMapperImpl;
 import Aceleracion.AppBancaria.Repositorios.RepositorioBanco;
 import Aceleracion.AppBancaria.Repositorios.RepositorioSucursal;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Service
+@Validated
 public class ServicioSucursal {
     private ServicioBanco servBanco;
     private RepositorioSucursal repoSucursal;
@@ -22,7 +25,7 @@ public class ServicioSucursal {
         this.repoSucursal = repoSucursal;
     }
     @Transactional
-    public void crearSucursal(SucursalRequestDTO sucursalRequestDTO) throws Exception {
+    public void crearSucursal(@Valid SucursalRequestDTO sucursalRequestDTO) throws Exception {
         SucursalMapper mapper = new SucursalMapperImpl();
         Sucursal sucursal = mapper.sucursalRequestDtoToSucursal(sucursalRequestDTO);
         sucursal.setBanco(servBanco.buscarBanco(sucursalRequestDTO.getIdBanco()));
