@@ -1,8 +1,13 @@
 package Aceleracion.AppBancaria.Entidades.Dto.Request;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
 public class SolicitudBajaDTO {
+    @Min(value = 1, message = "El id del banco debe ser mayor o igual a 1")
     private long idCliente;
-    private long idSucursal;
+
+    @NotBlank(message = "Ingrese unmotivo para la baja")
     private String motivo;
 
     public SolicitudBajaDTO() {
@@ -10,7 +15,7 @@ public class SolicitudBajaDTO {
 
     public SolicitudBajaDTO(long idCliente, long idSucursal, String motivo) {
         this.idCliente = idCliente;
-        this.idSucursal = idSucursal;
+
         this.motivo = motivo;
     }
 
@@ -22,13 +27,9 @@ public class SolicitudBajaDTO {
         this.idCliente = idCliente;
     }
 
-    public long getIdSucursal() {
-        return idSucursal;
-    }
 
-    public void setIdSucursal(long idSucursal) {
-        this.idSucursal = idSucursal;
-    }
+
+
 
     public String getMotivo() {
         return motivo;

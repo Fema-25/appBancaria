@@ -1,10 +1,16 @@
 package Aceleracion.AppBancaria.Entidades.Dto.Request;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 
 public class TranferenciaRequestDTO {
+    @NotBlank(message = "Ingrese el CBU destino")
     private String cbuFinal;
+    @NotBlank(message = "Seleceione una de sus cuenta")
     private String cbuInicio;
+    @Min(value = 1, message = "ingrese un monto")
     private BigDecimal monto;
 
     public TranferenciaRequestDTO() {

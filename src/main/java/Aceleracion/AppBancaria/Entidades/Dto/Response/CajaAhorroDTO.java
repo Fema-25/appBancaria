@@ -1,5 +1,7 @@
 package Aceleracion.AppBancaria.Entidades.Dto.Response;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 
 public class CajaAhorroDTO {

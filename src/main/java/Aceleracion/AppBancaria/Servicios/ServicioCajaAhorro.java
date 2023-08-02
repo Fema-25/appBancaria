@@ -6,12 +6,15 @@ import Aceleracion.AppBancaria.Entidades.Dto.Request.TranferenciaRequestDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.CajaAhorroDTO;
 import Aceleracion.AppBancaria.Repositorios.RepositorioCajaAhorro;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Random;
 
 @Service
+@Validated
 public class ServicioCajaAhorro {
     private RepositorioCajaAhorro repoCajaAhorro;
 
@@ -26,7 +29,7 @@ public class ServicioCajaAhorro {
         repoCajaAhorro.save(cajaDeAhorro);
         return cajaDeAhorro;
     }
-    public void ingresarDineroCajaAhorro(CajaAhorroDTO cajaAhorroDTO) throws Exception {
+    public void ingresarDineroCajaAhorro(@Valid CajaAhorroDTO cajaAhorroDTO) throws Exception {
         Optional<CajaDeAhorro>caja = repoCajaAhorro.findById(cajaAhorroDTO.getId());
         if(!caja.isPresent()){
             throw new Exception("Lo siento no se encontro su caja de ahorro verifique bien los datos ingresados");
@@ -37,7 +40,7 @@ public class ServicioCajaAhorro {
         }
     }
 
-    public void retirarDineroCajaAhorro(CajaAhorroDTO cajaAhorroDTO) throws Exception {
+    public void retirarDineroCajaAhorro(@Valid CajaAhorroDTO cajaAhorroDTO) throws Exception {
         Optional<CajaDeAhorro>caja = repoCajaAhorro.findById(cajaAhorroDTO.getId());
         if(!caja.isPresent()){
             throw new Exception("Lo siento no se encontro su caja de ahorro verifique bien los datos ingresados");
@@ -49,7 +52,7 @@ public class ServicioCajaAhorro {
 
         }
     }
-    public void transferenciaCbu(TranferenciaRequestDTO tranferenciaRequestDTO) throws Exception {
+    public void transferenciaCbu(@Valid TranferenciaRequestDTO tranferenciaRequestDTO) throws Exception {
         Optional<CajaDeAhorro>cajaFinal = repoCajaAhorro.findByCbu(tranferenciaRequestDTO.getCbuFinal());
         Optional<CajaDeAhorro>cajaInicio = repoCajaAhorro.findByCbu(tranferenciaRequestDTO.getCbuInicio());
         if(!cajaInicio.isPresent() && !cajaFinal.isPresent()){
