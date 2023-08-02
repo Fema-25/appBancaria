@@ -1,6 +1,5 @@
 package Aceleracion.AppBancaria.Entidades.Dto.Request;
 
-import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 public class ClienteRequestDTO {
@@ -22,13 +21,16 @@ public class ClienteRequestDTO {
     @Pattern(message = "Por favor ingrese un numero de telefono valido", regexp = "\\b\\d{10}\\b")
     private String telefono;
 
-    public ClienteRequestDTO(String email, String password, String nombre, String apellido, String dni, String telefono) {
+    private Long sucursalId;
+
+    public ClienteRequestDTO(String email, String password, String nombre, String apellido, String dni, String telefono, long sucursalId) {
         this.email = email;
         this.password = password;
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
         this.telefono = telefono;
+        this.sucursalId = sucursalId;
     }
 
     public String getEmail() {
@@ -77,5 +79,13 @@ public class ClienteRequestDTO {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public Long getSucursalId() {
+        return sucursalId;
+    }
+
+    public void setSucursalId(Long sucursalId) {
+        this.sucursalId = sucursalId;
     }
 }

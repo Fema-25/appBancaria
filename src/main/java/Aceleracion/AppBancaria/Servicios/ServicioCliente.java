@@ -1,27 +1,24 @@
 package Aceleracion.AppBancaria.Servicios;
 
-import Aceleracion.AppBancaria.Entidades.CajaDeAhorro;
-import Aceleracion.AppBancaria.Entidades.Cliente;
+import Aceleracion.AppBancaria.Entidades.*;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestActualizarDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestDTO;
+import Aceleracion.AppBancaria.Entidades.Dto.Request.SolicitudBajaDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.TranferenciaRequestDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.CajaAhorroDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.ClienteResponseActulizarDTO;
-import Aceleracion.AppBancaria.Mapper.CajaAhorroMapper;
-import Aceleracion.AppBancaria.Mapper.CajaAhorroMapperImpl;
-import Aceleracion.AppBancaria.Mapper.ClienteMapper;
-import Aceleracion.AppBancaria.Mapper.ClienteMapperImpl;
-import Aceleracion.AppBancaria.Repositorios.RepositorioCajaAhorro;
+import Aceleracion.AppBancaria.Mapper.*;
 import Aceleracion.AppBancaria.Repositorios.RepositorioCliente;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import Aceleracion.AppBancaria.Repositorios.RepositorioSolicitudBaja;
+import Aceleracion.AppBancaria.Repositorios.RepositorioSolicitudCuentaCorriente;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
+import javax.transaction.Transactional;
 import javax.validation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 @Validated
@@ -29,25 +26,33 @@ public class ServicioCliente {
 
 
     private final RepositorioCliente repoCliente;
+    private RepositorioSolicitudBaja repoSolicitudBaja;
     private ServicioCajaAhorro servCajaAhorro;
+    private ServicioSucursal servSucursal;
+    private RepositorioSolicitudCuentaCorriente repoSolicitudCuenta;
 
 
 
 
-    public ServicioCliente(RepositorioCliente repoClinte,ServicioCajaAhorro servCajaAhorro) {
+    public ServicioCliente(RepositorioCliente repoClinte, ServicioCajaAhorro servCajaAhorro, ServicioSucursal servSucursal, RepositorioSolicitudBaja repoSolicitudBaja, RepositorioSolicitudCuentaCorriente repoSolicitudCuenta) {
         this.repoCliente = repoClinte;
         this.servCajaAhorro = servCajaAhorro;
+        this.servSucursal = servSucursal;
+        this.repoSolicitudBaja = repoSolicitudBaja;
 
 
+        this.repoSolicitudCuenta = repoSolicitudCuenta;
     }
+    @Transactional
     public void crearCliente(@Valid ClienteRequestDTO clienteDto)  throws Exception{
-        ModelMapper modelMapper = new ModelMapper();
+
         Optional<Cliente> cliente = repoCliente.findByDni(clienteDto.getDni());
+
         if(cliente.isPresent()){
             throw new Exception("El dni con el que esta ingreasndo ya esta registrado");
         }
-        Cliente persiste = modelMapper.map(clienteDto,Cliente.class);
-
+        Cliente persiste = ClienteMapper.INSTANCE.clienteResponseDtoToCliente(clienteDto);
+        persiste.setSucursal(servSucursal.buscarSucursal(clienteDto.getSucursalId()));
         persiste.setAlta(true);
         repoCliente.save(persiste);
 
@@ -102,6 +107,26 @@ public class ServicioCliente {
 
     public void transferenciaCbu(TranferenciaRequestDTO tranferenciaRequestDTO) throws Exception{
         servCajaAhorro.transferenciaCbu(tranferenciaRequestDTO);
+    }
+    public void solicitarBaja(SolicitudBajaDTO solicitudBajaDTO) throws Exception {
+        SolicitudBajaMapper mapper = new SolicitudBajaMapperImpl();
+        SolicitudBaja solicitudBaja = mapper.solicitudBajaDtoToSolicitudBaja(solicitudBajaDTO);
+        solicitudBaja.setCliente(repoCliente.getById(solicitudBajaDTO.getIdCliente()));
+        repoSolicitudBaja.save(solicitudBaja);
+
+
+    }
+    public void SolicitarCuentaCorriente(long idCliente) throws Exception {
+        Optional<Cliente>bD = repoCliente.findById(idCliente);
+        if(!bD.isPresent()){
+            throw new Exception("No se encontro el cliente");
+        }
+        else{
+            SolicitudCuenteCorriente solicitud = new SolicitudCuenteCorriente();
+            solicitud.setCliente(bD.get());
+            repoSolicitudCuenta.save(solicitud);
+
+        }
     }
 
 }

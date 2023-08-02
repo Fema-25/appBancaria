@@ -1,26 +1,27 @@
 package Aceleracion.AppBancaria.Entidades;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 @Entity
-public class CajaDeAhorro {
+public class SolicitudBaja {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private BigDecimal saldo;
-    private String cbu;
-    @ManyToOne
+
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    public CajaDeAhorro() {
-        this.saldo = BigDecimal.valueOf(0.00);
+    private String motivo;
+
+    public SolicitudBaja() {
     }
 
-    public CajaDeAhorro(String cbu, Cliente cliente) {
+    public SolicitudBaja(Sucursal sucursal, Cliente cliente, String motivo) {
 
-        this.cbu = cbu;
         this.cliente = cliente;
+        this.motivo = motivo;
     }
 
     public Long getId() {
@@ -31,21 +32,9 @@ public class CajaDeAhorro {
         this.id = id;
     }
 
-    public BigDecimal getSaldo() {
-        return saldo;
-    }
 
-    public void setSaldo(BigDecimal saldo) {
-        this.saldo = saldo;
-    }
 
-    public String getCbu() {
-        return cbu;
-    }
 
-    public void setCbu(String cbu) {
-        this.cbu = cbu;
-    }
 
     public Cliente getCliente() {
         return cliente;
@@ -53,5 +42,13 @@ public class CajaDeAhorro {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
     }
 }

@@ -3,6 +3,7 @@ package Aceleracion.AppBancaria.Controladores;
 import Aceleracion.AppBancaria.Entidades.CajaDeAhorro;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestActualizarDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.ClienteRequestDTO;
+import Aceleracion.AppBancaria.Entidades.Dto.Request.SolicitudBajaDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.TranferenciaRequestDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.CajaAhorroDTO;
 import Aceleracion.AppBancaria.Entidades.Dto.Response.ClienteResponseActulizarDTO;
@@ -96,6 +97,24 @@ public class ControladorCliente {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
         return ResponseEntity.status(HttpStatus.OK).body("Transacion realizada con exito");
+    }
+    @PostMapping("/solicitudBaja")
+    public  ResponseEntity<String> solicitudBaja(@RequestBody SolicitudBajaDTO solicitudBajaDTO){
+        try {
+            servCliente.solicitarBaja(solicitudBajaDTO);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("Solicitud Enviada");
+    }
+    @PostMapping("/solicitudCuentaCorriente/{idCliente}")
+    public ResponseEntity<String>solicitudCuentaCorriente(@PathVariable("idCliente") long idCliente){
+        try {
+            servCliente.SolicitarCuentaCorriente(idCliente);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        return  ResponseEntity.status(HttpStatus.OK).body("Solicitud Enviada");
     }
 
 }

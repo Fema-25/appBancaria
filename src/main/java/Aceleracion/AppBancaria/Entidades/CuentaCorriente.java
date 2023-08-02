@@ -2,32 +2,33 @@ package Aceleracion.AppBancaria.Entidades;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+
 @Entity
-public class CajaDeAhorro {
+public class CuentaCorriente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private BigDecimal saldo;
+    private long id;
+    private BigDecimal saldo = BigDecimal.valueOf(0.00);
     private String cbu;
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    public CajaDeAhorro() {
-        this.saldo = BigDecimal.valueOf(0.00);
+    public CuentaCorriente() {
     }
 
-    public CajaDeAhorro(String cbu, Cliente cliente) {
-
+    public CuentaCorriente(long id, BigDecimal saldo, String cbu, Cliente cliente) {
+        this.id = id;
+        this.saldo = saldo;
         this.cbu = cbu;
         this.cliente = cliente;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
