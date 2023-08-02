@@ -49,8 +49,14 @@ public class ControladorEmpleado {
         }
         return ResponseEntity.status(HttpStatus.OK).body("El usuario fue dado de baja");
     }
-    public void listaSolicitudesCuentaCorrientes(){
-
+    @PutMapping("/aprobarCuentaCorriente/{idCliente}")
+    public ResponseEntity<String> aprobarCuentaCorriente(@PathVariable("idCliente") long idCliente){
+        try {
+            servicioEmpleado.AprobarCuentaCorriente(idCliente);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("Cuenta Corriente Creada");
     }
 
 }

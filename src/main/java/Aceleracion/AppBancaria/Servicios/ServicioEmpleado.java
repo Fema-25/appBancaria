@@ -1,12 +1,9 @@
 package Aceleracion.AppBancaria.Servicios;
 
-import Aceleracion.AppBancaria.Entidades.Cliente;
+import Aceleracion.AppBancaria.Entidades.*;
 import Aceleracion.AppBancaria.Entidades.Dto.Request.EmpleadoRequestDTO;
 
 import Aceleracion.AppBancaria.Entidades.Dto.Response.SolicitudBajaResponseDTO;
-import Aceleracion.AppBancaria.Entidades.Empleado;
-import Aceleracion.AppBancaria.Entidades.SolicitudBaja;
-import Aceleracion.AppBancaria.Entidades.Sucursal;
 import Aceleracion.AppBancaria.Mapper.EmpleadoMapper;
 import Aceleracion.AppBancaria.Mapper.EmpleadoMapperImpl;
 import Aceleracion.AppBancaria.Mapper.SolicitudBajaMapper;
@@ -25,12 +22,14 @@ public class ServicioEmpleado {
     private ServicioSucursal servicioSucursal;
     private RepositorioSolicitudBaja repositorioSolicitudBaja;
     private RepositorioCliente repositorioCliente;
+    private ServicioCuentaCorriente servicioCuentaCorriente;
 
-    public ServicioEmpleado(RepositorioEmpleado repositorioEmpleado, ServicioSucursal servicioSucursal, RepositorioSolicitudBaja repositorioSolicitudBaja, RepositorioCliente repositorioCliente) {
+    public ServicioEmpleado(RepositorioEmpleado repositorioEmpleado, ServicioSucursal servicioSucursal, RepositorioSolicitudBaja repositorioSolicitudBaja, RepositorioCliente repositorioCliente, ServicioCuentaCorriente servicioCuentaCorriente) {
         this.repositorioEmpleado = repositorioEmpleado;
         this.servicioSucursal = servicioSucursal;
         this.repositorioSolicitudBaja = repositorioSolicitudBaja;
         this.repositorioCliente = repositorioCliente;
+        this.servicioCuentaCorriente = servicioCuentaCorriente;
     }
 
     public void crearEmpleado(EmpleadoRequestDTO empleadoRequestDTO) throws Exception {
@@ -69,7 +68,13 @@ public class ServicioEmpleado {
 
         }
     }
-    public void listarSolicitudesCuenteCorriente(){
-
+    public void AprobarCuentaCorriente(long idCliente) throws Exception {
+        Optional<Cliente>bD=repositorioCliente.findById(idCliente);
+        if(!bD.isPresent()){
+            throw new Exception("El cliente no se encontro");
+        }else{
+            Cliente cliente = bD.get();
+            servicioCuentaCorriente.CrearCuentaCorriente(cliente);
+        }
     }
 }
