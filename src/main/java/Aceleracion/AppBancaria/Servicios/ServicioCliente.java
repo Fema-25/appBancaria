@@ -25,7 +25,7 @@ import java.util.Optional;
 public class ServicioCliente {
 
 
-    private final RepositorioCliente repoCliente;
+    private  RepositorioCliente repoCliente;
     private RepositorioSolicitudBaja repoSolicitudBaja;
     private ServicioCajaAhorro servCajaAhorro;
     private ServicioSucursal servSucursal;
@@ -43,21 +43,29 @@ public class ServicioCliente {
 
         this.repoSolicitudCuenta = repoSolicitudCuenta;
     }
+
+    public ServicioCliente() {
+
+    }
+
+
     @Transactional
     public void crearCliente(@Valid ClienteRequestDTO clienteDto)  throws Exception{
 
         Optional<Cliente> cliente = repoCliente.findByDni(clienteDto.getDni());
 
         if(cliente.isPresent()){
-            throw new Exception("El dni con el que esta ingreasndo ya esta registrado");
+            throw new Exception("El dni con el que esta ingresando ya esta registrado");
         }
-        Cliente persiste = ClienteMapper.INSTANCE.clienteResponseDtoToCliente(clienteDto);
-        persiste.setSucursal(servSucursal.buscarSucursal(clienteDto.getSucursalId()));
-        persiste.setAlta(true);
-        repoCliente.save(persiste);
+            Cliente persiste = ClienteMapper.INSTANCE.clienteResponseDtoToCliente(clienteDto);
+            persiste.setSucursal(servSucursal.buscarSucursal(clienteDto.getSucursalId()));
+            persiste.setAlta(true);
+            repoCliente.save(persiste);
+        }
 
 
-    }
+
+
 
     public ClienteResponseActulizarDTO actualizarDatos(@Valid ClienteRequestActualizarDTO clienteRequestActualizarDTO) throws Exception {
             ClienteMapper mapper = new ClienteMapperImpl();
@@ -130,3 +138,4 @@ public class ServicioCliente {
     }
 
 }
+

@@ -18,6 +18,27 @@ public class ClienteRequestActualizarDTO {
     @Pattern(message = "Por favor ingrese un numero de telefono valido", regexp = "\\b\\d{10}\\b")
     private String telefono;
 
+    public ClienteRequestActualizarDTO(Long id, String email, String nombre, String apellido, String dni, String telefono) {
+        this.id = id;
+        this.email = email;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.dni = dni;
+        this.telefono = telefono;
+    }
+
+    public ClienteRequestActualizarDTO() {
+
+    }
+
+    public ClienteRequestActualizarDTO(String email, String nombre, String apellido, String dni, String telefono) {
+        this.email = email;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.dni = dni;
+        this.telefono = telefono;
+    }
+
     public Long getId() {
         return id;
     }

@@ -18,7 +18,7 @@ public class CajaDeAhorro {
     }
 
     public CajaDeAhorro(String cbu, Cliente cliente) {
-
+        this.saldo = BigDecimal.valueOf(0.00);
         this.cbu = cbu;
         this.cliente = cliente;
     }

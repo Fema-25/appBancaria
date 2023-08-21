@@ -24,6 +24,11 @@ public class ServicioSucursal {
         this.servBanco = servBanco;
         this.repoSucursal = repoSucursal;
     }
+
+    public ServicioSucursal() {
+
+    }
+
     @Transactional
     public void crearSucursal(@Valid SucursalRequestDTO sucursalRequestDTO) throws Exception {
         SucursalMapper mapper = new SucursalMapperImpl();
